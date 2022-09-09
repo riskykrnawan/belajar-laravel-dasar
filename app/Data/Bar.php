@@ -5,7 +5,7 @@ namespace App\Data;
 
 class Bar {
 
-  private Foo $foo;
+  public Foo $foo;
   public function __construct(Foo $foo) 
   {
     $this->foo = $foo;
