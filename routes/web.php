@@ -16,3 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/risky', function () {
+    return 'risky';
+});
+Route::redirect('riskykurniawan', 'risky');
+Route::fallback(function() {
+    return '404';
+});
