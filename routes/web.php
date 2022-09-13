@@ -20,6 +20,17 @@ Route::get('/risky', function () {
     return 'risky';
 });
 Route::redirect('riskykurniawan', 'risky');
+
+Route::view('/hello1', 'hello', ['name' => 'risky']);
+
+Route::get('/hello2', function () {
+    return view('hello', ['name' => 'risky']);
+});
+
+Route::get('/hello-world', function () {
+    return view('hello.world');
+});
+
 Route::fallback(function() {
     return '404';
 });
