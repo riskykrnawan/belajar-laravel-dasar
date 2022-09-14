@@ -2,7 +2,9 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "prod": "npm run production",
+        "production": "mix --production"
     },
     "devDependencies": {
         "axios": "^0.27",
