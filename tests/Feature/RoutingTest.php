@@ -54,10 +54,6 @@ class RoutingTest extends TestCase
         $this->get('/produk/12345')->assertSeeText("products/12345");
         $this->get('/produk-redirect/12345')->assertSeeText("products/12345");
     }
-
-
-
-
     public function testViewWithoutRoute() {
         $this->view('hello', ['name' => 'risky'])->assertSeeText('hello risky');
     }
