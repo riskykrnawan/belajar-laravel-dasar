@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HelloController;
+use App\Http\Controllers\InputController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,14 +54,9 @@ Route::get('/produk/{produkId}', function ($produkId) {
     return "Link: " . $link;
 });
 
-Route::get('/controller/hello/request', [HelloController::class, 'request']);
-Route::get('/controller/hello/{name}', [HelloController::class, 'hello']);
-
 Route::get('/produk-redirect/{produkId}', function ($produkId) {
     return redirect()->route('product.detail', array('id' => $produkId));
 });
-
-
 
 Route::get('/conflict/{name?}', function (string $name) {
     return "conflict: " . $name;
@@ -74,3 +70,14 @@ Route::get('/conflict/risky', function () {
 Route::fallback(function() {
     return '404';
 });
+
+Route::get('/controller/hello/request', [HelloController::class, 'request']);
+Route::get('/controller/hello/{name}', [HelloController::class, 'hello']);
+
+Route::get('/input/hello', [InputController::class, 'hello']);
+Route::Post('/input/hello', [InputController::class, 'hello']);
+
+Route::get('/input/hello/firstname', [InputController::class, 'helloFirst']);
+Route::get('/input/hello/lastname', [InputController::class, 'helloLast']);
+Route::get('/input/hello/input', [InputController::class, 'helloInput']);
+Route::get('/input/hello/array', [InputController::class, 'arrayInput']);
