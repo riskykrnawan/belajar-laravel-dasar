@@ -53,6 +53,7 @@ Route::get('/produk/{produkId}', function ($produkId) {
     return "Link: " . $link;
 });
 
+Route::get('/controller/hello/request', [HelloController::class, 'request']);
 Route::get('/controller/hello/{name}', [HelloController::class, 'hello']);
 
 Route::get('/produk-redirect/{produkId}', function ($produkId) {
