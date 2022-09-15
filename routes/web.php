@@ -76,8 +76,8 @@ Route::get('/controller/hello/{name}', [HelloController::class, 'hello']);
 
 Route::get('/input/hello', [InputController::class, 'hello']);
 Route::Post('/input/hello', [InputController::class, 'hello']);
-
 Route::get('/input/hello/firstname', [InputController::class, 'helloFirst']);
 Route::get('/input/hello/lastname', [InputController::class, 'helloLast']);
 Route::get('/input/hello/input', [InputController::class, 'helloInput']);
 Route::get('/input/hello/array', [InputController::class, 'arrayInput']);
+Route::post('/input/type', [InputController::class, 'inputType']);
