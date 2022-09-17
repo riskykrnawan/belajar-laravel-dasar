@@ -53,4 +53,19 @@ class InputController extends Controller
         );
 
     }
+
+    public function filterOnly(Request $request) {
+        $name = $request->only(['name.first', 'name.last']);
+        return json_encode($name);
+    }
+    public function filterExpect(Request $request) {
+        $name = $request->except(['password']);
+        return json_encode($name);
+    }
+    public function filterMerge(Request $request) {
+        $request->merge(['admin' => false]);
+        $user = $request->input();
+        return json_encode($user);
+    }
+
 }
