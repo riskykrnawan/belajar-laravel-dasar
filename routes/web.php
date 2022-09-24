@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\ValidationException;
 use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HelloController;
@@ -155,11 +156,18 @@ Route::get('url/named', function () {
 Route::get('session/create', [SessionController::class, 'createSession']);
 Route::get('session/get', [SessionController::class, 'getSession']);
 
+Route::get('error/sample', function () {
+    throw new Exception('Sample Error');
+});
 
+Route::get('error/manual', function () {
+    report(new Exception("Sample Error"));
+    return 'OK';
+});
 
-
-
-
+Route::get('error/validation', function () {
+    throw new ValidationException('Validation Error');
+});
 
 
 
