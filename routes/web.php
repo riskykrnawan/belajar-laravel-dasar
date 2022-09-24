@@ -10,6 +10,7 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\RedirectController;
 use App\Http\Middleware\ContohMiddleware;
 use App\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -131,8 +132,39 @@ Route::middleware(['contoh:RK,401'])->prefix('/middleware')->group(function () {
     Route::get('/api-with-param', function () { return 'PARAM'; });
 });
 
+Route::get('url/action', function () {
+    return action([FormController::class, 'form'], []);
+});
 Route::get('/form', [FormController::class, 'form']);
 Route::post('/form', [FormController::class, 'submitForm']);
+
+Route::get('url/current', function () {
+    return URL::full();
+});
+
+Route::get('redirect/name/{name}', [RedirectController::class, 'redirectHello'])
+    ->name('redirect-hello');
+
+Route::get('url/named', function () {
+    return route('redirect-hello', ['name' => 'risky']);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Route::get('/controller/hello/request', [HelloController::class, 'request']);
 // Route::get('/controller/hello/{name}', [HelloController::class, 'hello']);
