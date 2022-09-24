@@ -29,7 +29,7 @@ class RedirectController extends Controller
 
     public function redirectAway(): RedirectResponse
     {
-        return redirect()->away('www.example.com');
+        return redirect()->away('https://www.example.com');
     }
 
     public  function redirectHello(string $name): string

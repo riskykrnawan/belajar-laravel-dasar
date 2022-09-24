@@ -7,6 +7,8 @@ use App\Http\Controllers\InputController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\CookieController;
 use App\Http\Controllers\RedirectController;
+use App\Http\Middleware\ContohMiddleware;
+use App\Http\Middleware\VerifyCsrfToken;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,7 +91,8 @@ Route::post('/input/filter/only', [InputController::class, 'filterOnly']);
 Route::post('/input/filter/except', [InputController::class, 'filterExpect']);
 Route::post('/input/filter/merge', [InputController::class, 'filterMerge']);
 
-Route::post('/file/upload', [FileController::class, 'upload']);
+Route::post('/file/upload', [FileController::class, 'upload'])
+    ->withoutMiddleware([VerifyCsrfToken::class]);
 
 Route::get('response/hello', [ResponseController::class, 'response']);
 Route::get('response/header', [ResponseController::class, 'header']);
@@ -108,3 +111,15 @@ Route::get('/redirect/name', [RedirectController::class, 'redirectName']);
 Route::get('/redirect/name/{name}', [RedirectController::class, 'redirectHello'])->name('redirect-hello');
 Route::get('/redirect/action', [RedirectController::class, 'redirectAction']);
 Route::get('/redirect/away', [RedirectController::class, 'redirectAway']);
+
+Route::get('middleware/api', function () {
+    return 'OK';
+})->middleware(['contoh:RK,401']); //menggunakan alias, bisa juga menggunakan classnya
+
+Route::get('middleware/group', function () {
+    return 'GROUP';
+})->middleware(['rk']);
+
+Route::get('middleware/api-with-param', function () {
+    return 'PARAM';
+})->middleware(['contoh:RK,401']);
