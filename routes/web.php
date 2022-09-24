@@ -78,52 +78,92 @@ Route::fallback(function() {
     return '404';
 });
 
-Route::get('/controller/hello/request', [HelloController::class, 'request']);
-Route::get('/controller/hello/{name}', [HelloController::class, 'hello']);
 
-Route::get('/input/hello', [InputController::class, 'hello']);
-Route::Post('/input/hello', [InputController::class, 'hello']);
-Route::get('/input/hello/firstname', [InputController::class, 'helloFirst']);
-Route::get('/input/hello/lastname', [InputController::class, 'helloLast']);
-Route::get('/input/hello/input', [InputController::class, 'helloInput']);
-Route::get('/input/hello/array', [InputController::class, 'arrayInput']);
-Route::post('/input/type', [InputController::class, 'inputType']);
-Route::post('/input/filter/only', [InputController::class, 'filterOnly']);
-Route::post('/input/filter/except', [InputController::class, 'filterExpect']);
-Route::post('/input/filter/merge', [InputController::class, 'filterMerge']);
+Route::controller(HelloController::class)->prefix('/controller/hello')->group(function () {
+    Route::get('/request', 'request');
+    Route::get('/{name}', 'hello');    
+});
+
+
+Route::controller(InputController::class)->prefix('/input')->group(function () {
+    Route::get('/hello','hello');
+    Route::post('/hello','hello');
+    Route::get('/hello/firstname','helloFirst');
+    Route::get('/hello/lastname','helloLast');
+    Route::get('/hello/input','helloInput');
+    Route::get('/hello/array','arrayInput');
+    Route::post('/type','inputType');
+    Route::post('/filter/only','filterOnly');
+    Route::post('/filter/except','filterExpect');
+    Route::post('/filter/merge','filterMerge');
+});
 
 Route::post('/file/upload', [FileController::class, 'upload'])
     ->withoutMiddleware([VerifyCsrfToken::class]);
 
 Route::get('response/hello', [ResponseController::class, 'response']);
 Route::get('response/header', [ResponseController::class, 'header']);
-Route::get('response/type/view', [ResponseController::class, 'responseView']);
-Route::get('response/type/json', [ResponseController::class, 'responseJson']);
-Route::get('response/type/file', [ResponseController::class, 'responseFile']);
-Route::get('response/type/download', [ResponseController::class, 'responseDownload']);
 
-Route::get('/cookie/set', [CookieController::class, 'createCookie']);
-Route::get('/cookie/get', [CookieController::class, 'getCookie']);
-Route::get('/cookie/clear', [CookieController::class, 'clearCookie']);
+Route::controller(ResponseController::class)->prefix('response/type')->group(function () {
+    Route::get('/view', 'responseView');
+    Route::get('/json', 'responseJson');
+    Route::get('/file', 'responseFile');
+    Route::get('/download', 'responseDownload');
+});
 
-Route::get('/redirect/from', [RedirectController::class, 'redirectFrom']);
-Route::get('/redirect/to', [RedirectController::class, 'redirectTo']);
-Route::get('/redirect/name', [RedirectController::class, 'redirectName']);
-Route::get('/redirect/name/{name}', [RedirectController::class, 'redirectHello'])->name('redirect-hello');
-Route::get('/redirect/action', [RedirectController::class, 'redirectAction']);
-Route::get('/redirect/away', [RedirectController::class, 'redirectAway']);
+Route::controller(CookieController::class)->prefix('/cookie')->group(function () {
+    Route::get('/set', 'createCookie');
+    Route::get('/get', 'getCookie');
+    Route::get('/clear', 'clearCookie');
+});
+Route::controller(RedirectController::class)->prefix('/redirect')->group(function () {
+    Route::get('/from', 'redirectFrom');
+    Route::get('/to', 'redirectTo');
+    Route::get('/name', 'redirectName');
+    Route::get('/name/{name}', 'redirectHello')->name('redirect-hello');
+    Route::get('/action', 'redirectAction');
+    Route::get('/away', 'redirectAway');
+});
 
-Route::get('middleware/api', function () {
-    return 'OK';
-})->middleware(['contoh:RK,401']); //menggunakan alias, bisa juga menggunakan classnya
-
-Route::get('middleware/group', function () {
-    return 'GROUP';
-})->middleware(['rk']);
-
-Route::get('middleware/api-with-param', function () {
-    return 'PARAM';
-})->middleware(['contoh:RK,401']);
+Route::middleware(['contoh:RK,401'])->prefix('/middleware')->group(function () {
+    Route::get('/api', function () { return 'OK'; }); //menggunakan alias, bisa juga menggunakan classnya
+    Route::get('/group', function () { return 'GROUP'; });
+    Route::get('/api-with-param', function () { return 'PARAM'; });
+});
 
 Route::get('/form', [FormController::class, 'form']);
 Route::post('/form', [FormController::class, 'submitForm']);
+
+// Route::get('/controller/hello/request', [HelloController::class, 'request']);
+// Route::get('/controller/hello/{name}', [HelloController::class, 'hello']);
+
+// Route::get('/input/hello', [InputController::class, 'hello']);
+// Route::Post('/input/hello', [InputController::class, 'hello']);
+// Route::get('/input/hello/firstname', [InputController::class, 'helloFirst']);
+// Route::get('/input/hello/lastname', [InputController::class, 'helloLast']);
+// Route::get('/input/hello/input', [InputController::class, 'helloInput']);
+// Route::get('/input/hello/array', [InputController::class, 'arrayInput']);
+// Route::post('/input/type', [InputController::class, 'inputType']);
+// Route::post('/input/filter/only', [InputController::class, 'filterOnly']);
+// Route::post('/input/filter/except', [InputController::class, 'filterExpect']);
+// Route::post('/input/filter/merge', [InputController::class, 'filterMerge']);
+
+// Route::get('/cookie/set', [CookieController::class, 'createCookie']);
+// Route::get('/cookie/get', [CookieController::class, 'getCookie']);
+// Route::get('/cookie/clear', [CookieController::class, 'clearCookie']);
+
+// Route::get('/redirect/from', [RedirectController::class, 'redirectFrom']);
+// Route::get('/redirect/to', [RedirectController::class, 'redirectTo']);
+// Route::get('/redirect/name', [RedirectController::class, 'redirectName']);
+// Route::get('/redirect/name/{name}', [RedirectController::class, 'redirectHello'])->name('redirect-hello');
+// Route::get('/redirect/action', [RedirectController::class, 'redirectAction']);
+// Route::get('/redirect/away', [RedirectController::class, 'redirectAway']);
+
+// Route::get('response/type/view', [ResponseController::class, 'responseView']);
+// Route::get('response/type/json', [ResponseController::class, 'responseJson']);
+// Route::get('response/type/file', [ResponseController::class, 'responseFile']);
+// Route::get('response/type/download', [ResponseController::class, 'responseDownload']);
+
+// Route::get('middleware/api', function () { return 'OK'; })->middleware(['contoh:RK,401']); //menggunakan alias, bisa juga menggunakan classnya
+// Route::get('middleware/group', function () { return 'GROUP'; })->middleware(['rk']);
+// Route::get('middleware/api-with-param', function () { return 'PARAM'; })->middleware(['contoh:RK,401']);
