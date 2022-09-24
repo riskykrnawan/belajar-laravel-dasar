@@ -6,6 +6,7 @@ use App\Http\Controllers\HelloController;
 use App\Http\Controllers\InputController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\CookieController;
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\RedirectController;
 use App\Http\Middleware\ContohMiddleware;
 use App\Http\Middleware\VerifyCsrfToken;
@@ -123,3 +124,6 @@ Route::get('middleware/group', function () {
 Route::get('middleware/api-with-param', function () {
     return 'PARAM';
 })->middleware(['contoh:RK,401']);
+
+Route::get('/form', [FormController::class, 'form']);
+Route::post('/form', [FormController::class, 'submitForm']);
